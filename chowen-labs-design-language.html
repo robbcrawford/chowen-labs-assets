@@ -1,0 +1,1177 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chowen Labs — Design Language v1.0</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --cyan: #00E5FF;
+      --blue: #2979FF;
+      --indigo: #6B3AE8;
+      --gradient: linear-gradient(135deg, #00E5FF 0%, #2979FF 50%, #6B3AE8 100%);
+
+      --bg: #F6F6FB;
+      --bg-card: #FFFFFF;
+      --bg-elevated: #FFFFFF;
+      --bg-subtle: #EDEDF5;
+      --border: #E2E2EE;
+      --text-1: #0F0F1A;
+      --text-2: #56567A;
+      --text-3: #9898B8;
+
+      --shadow-sm: 0 1px 3px rgba(15,15,26,0.05), 0 1px 2px rgba(15,15,26,0.04);
+      --shadow-md: 0 4px 16px rgba(15,15,26,0.07), 0 2px 6px rgba(15,15,26,0.04);
+      --shadow-lg: 0 8px 32px rgba(15,15,26,0.09), 0 4px 12px rgba(15,15,26,0.05);
+      --shadow-brand: 0 4px 20px rgba(41,121,255,0.24), 0 1px 4px rgba(41,121,255,0.14);
+    }
+
+    [data-theme="dark"] {
+      --bg: #0A0A12;
+      --bg-card: #121220;
+      --bg-elevated: #1A1A2C;
+      --bg-subtle: #1E1E30;
+      --border: #28283C;
+      --text-1: #EFEFFA;
+      --text-2: #8A8AAC;
+      --text-3: #56567A;
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.2);
+      --shadow-md: 0 4px 16px rgba(0,0,0,0.32);
+      --shadow-lg: 0 8px 32px rgba(0,0,0,0.42);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text-1);
+      display: flex;
+      min-height: 100vh;
+      transition: background 0.3s, color 0.3s;
+    }
+
+    /* ─── Sidebar ─── */
+    .sidebar {
+      width: 224px;
+      min-height: 100vh;
+      position: fixed;
+      top: 0; left: 0;
+      background: var(--bg-card);
+      border-right: 1px solid var(--border);
+      padding: 28px 0 40px;
+      z-index: 100;
+      overflow-y: auto;
+      transition: background 0.3s, border-color 0.3s;
+    }
+
+    .sidebar-logo {
+      padding: 0 20px 22px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 16px;
+    }
+
+    .sidebar-wordmark {
+      font-family: 'Nunito', sans-serif;
+      font-size: 15px;
+      font-weight: 800;
+    }
+
+    .sidebar-wordmark .chowen {
+      background: var(--gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .sidebar-wordmark .labs {
+      color: var(--text-2);
+      font-weight: 400;
+    }
+
+    .sidebar-version {
+      font-size: 11px;
+      color: var(--text-3);
+      margin-top: 3px;
+    }
+
+    .sidebar-group-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-3);
+      padding: 0 20px;
+      margin: 14px 0 4px;
+    }
+
+    .nav-link {
+      display: block;
+      padding: 7px 12px;
+      margin: 1px 8px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-2);
+      text-decoration: none;
+      border-radius: 7px;
+      transition: all 0.15s;
+    }
+
+    .nav-link:hover { background: var(--bg-subtle); color: var(--text-1); }
+    .nav-link.active { background: rgba(41,121,255,0.09); color: var(--blue); }
+
+    /* ─── Main ─── */
+    .main {
+      margin-left: 224px;
+      flex: 1;
+      padding: 0 52px 100px;
+      max-width: calc(100vw - 224px);
+    }
+
+    /* ─── Theme Toggle ─── */
+    .theme-toggle {
+      position: fixed;
+      top: 18px; right: 22px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 9999px;
+      padding: 6px 14px;
+      font-size: 12px;
+      font-weight: 500;
+      font-family: 'DM Sans', sans-serif;
+      color: var(--text-2);
+      cursor: pointer;
+      z-index: 200;
+      transition: all 0.2s;
+    }
+    .theme-toggle:hover { color: var(--text-1); }
+
+    /* ─── Sections ─── */
+    .section {
+      padding: 68px 0 52px;
+      border-bottom: 1px solid var(--border);
+    }
+    .section:last-child { border-bottom: none; }
+
+    .eyebrow {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--blue);
+      margin-bottom: 8px;
+    }
+
+    .section-title {
+      font-family: 'Nunito', sans-serif;
+      font-size: 30px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      color: var(--text-1);
+      margin-bottom: 12px;
+    }
+
+    .section-desc {
+      font-size: 15.5px;
+      color: var(--text-2);
+      line-height: 1.65;
+      max-width: 580px;
+      margin-bottom: 36px;
+    }
+
+    /* ─── Hero ─── */
+    .hero {
+      padding: 80px 0 64px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .hero-pill {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      color: var(--blue);
+      background: rgba(41,121,255,0.08);
+      border: 1px solid rgba(41,121,255,0.18);
+      padding: 4px 12px;
+      border-radius: 9999px;
+      margin-bottom: 24px;
+    }
+
+    .hero-title {
+      font-family: 'Nunito', sans-serif;
+      font-size: 54px;
+      font-weight: 900;
+      letter-spacing: -0.03em;
+      line-height: 1.08;
+      color: var(--text-1);
+      margin-bottom: 18px;
+    }
+
+    .gradient-text {
+      background: var(--gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-sub {
+      font-size: 17px;
+      color: var(--text-2);
+      line-height: 1.65;
+      max-width: 520px;
+      margin-bottom: 36px;
+    }
+
+    .hero-meta {
+      display: flex;
+      gap: 28px;
+      flex-wrap: wrap;
+    }
+
+    .hero-meta-item strong {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-2);
+      margin-bottom: 2px;
+    }
+
+    .hero-meta-item span {
+      font-size: 12px;
+      color: var(--text-3);
+    }
+
+    /* ─── Cards ─── */
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 22px;
+      box-shadow: var(--shadow-sm);
+      transition: background 0.3s, border-color 0.3s;
+    }
+
+    /* ─── Grid ─── */
+    .g2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+    .g3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+    .g4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+
+    /* ─── Swatches ─── */
+    .swatch-group-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-3);
+      margin-bottom: 12px;
+      margin-top: 28px;
+    }
+    .swatch-group-label:first-child { margin-top: 0; }
+
+    .swatch {
+      border-radius: 12px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: transform 0.18s cubic-bezier(0.34, 1.56, 0.64, 1);
+      box-shadow: var(--shadow-sm);
+    }
+    .swatch:hover { transform: scale(1.03); }
+
+    .swatch-color { height: 76px; }
+    .swatch-gradient .swatch-color {
+      background: linear-gradient(135deg, #00E5FF 0%, #2979FF 50%, #6B3AE8 100%);
+    }
+
+    .swatch-body {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-top: none;
+      padding: 10px 12px;
+    }
+
+    .swatch-name { font-size: 12px; font-weight: 600; color: var(--text-1); }
+    .swatch-hex { font-family: 'JetBrains Mono', monospace; font-size: 10.5px; color: var(--text-3); margin-top: 2px; }
+
+    /* ─── Token table ─── */
+    .token-table { width: 100%; border-collapse: collapse; }
+    .token-table th, .token-table td {
+      text-align: left;
+      padding: 10px 14px;
+      font-size: 12.5px;
+      border-bottom: 1px solid var(--border);
+    }
+    .token-table th {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-3);
+      background: var(--bg-subtle);
+    }
+    .token-table td { color: var(--text-2); vertical-align: middle; }
+    .token-table td:first-child {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11.5px;
+      color: var(--blue);
+    }
+    .token-table tr:last-child td { border-bottom: none; }
+    .swatch-dot {
+      display: inline-block;
+      width: 12px; height: 12px;
+      border-radius: 3px;
+      vertical-align: middle;
+      margin-right: 6px;
+      border: 1px solid rgba(0,0,0,0.08);
+    }
+
+    /* ─── Typography ─── */
+    .type-row {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 18px 22px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      margin-bottom: 6px;
+    }
+
+    .type-meta {
+      text-align: right;
+      flex-shrink: 0;
+    }
+    .type-meta .tname { font-size: 12px; font-weight: 600; color: var(--text-2); }
+    .type-meta .tdetail { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--text-3); margin-top: 2px; }
+
+    /* ─── Spacing ─── */
+    .space-row {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 9px;
+    }
+    .space-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--text-3);
+      width: 76px;
+      flex-shrink: 0;
+    }
+    .space-bar {
+      height: 7px;
+      border-radius: 4px;
+      background: linear-gradient(90deg, #00E5FF, #2979FF);
+      opacity: 0.6;
+      flex-shrink: 0;
+    }
+    .space-value {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text-2);
+    }
+
+    /* ─── Elevation ─── */
+    .elev-grid {
+      display: flex;
+      gap: 16px;
+      align-items: flex-end;
+    }
+    .elev-card {
+      flex: 1;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 20px 12px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
+    .elev-icon {
+      font-size: 22px;
+    }
+    .elev-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-2);
+      text-align: center;
+    }
+    .elev-detail {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 9.5px;
+      color: var(--text-3);
+      text-align: center;
+    }
+
+    /* ─── Radius ─── */
+    .radius-grid {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      align-items: flex-end;
+    }
+    .radius-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+    .radius-box {
+      width: 64px; height: 64px;
+      background: linear-gradient(135deg, rgba(0,229,255,0.12), rgba(107,58,232,0.12));
+      border: 1.5px solid rgba(41,121,255,0.22);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .radius-box span { font-size: 10px; font-weight: 700; color: var(--blue); }
+    .radius-label { font-size: 10.5px; color: var(--text-3); text-align: center; line-height: 1.4; }
+
+    /* ─── Demo area ─── */
+    .demo-area {
+      background: var(--bg-subtle);
+      border-radius: 16px;
+      padding: 28px 28px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+      margin-bottom: 6px;
+    }
+    .demo-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-3);
+      margin-top: 20px;
+      margin-bottom: 10px;
+    }
+
+    /* ─── Buttons ─── */
+    .btn {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      padding: 10px 22px;
+      border-radius: 9999px;
+      border: none;
+      cursor: pointer;
+      transition: all 0.25s cubic-bezier(0.4,0,0.2,1);
+      letter-spacing: 0.01em;
+      line-height: 1;
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, #00E5FF 0%, #2979FF 50%, #6B3AE8 100%);
+      color: #fff;
+      box-shadow: var(--shadow-brand);
+    }
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 24px rgba(41,121,255,0.38), 0 2px 6px rgba(41,121,255,0.2);
+    }
+    .btn-secondary {
+      background: var(--bg-card);
+      color: var(--text-1);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-sm);
+    }
+    .btn-secondary:hover { border-color: var(--blue); color: var(--blue); }
+    .btn-ghost {
+      background: transparent;
+      color: var(--text-2);
+    }
+    .btn-ghost:hover { background: var(--bg-subtle); color: var(--text-1); }
+    .btn-destructive {
+      background: rgba(255,69,58,0.08);
+      color: #FF453A;
+      border: 1px solid rgba(255,69,58,0.18);
+    }
+    .btn-destructive:hover { background: rgba(255,69,58,0.14); }
+    .btn-sm { font-size: 12px; padding: 7px 15px; }
+    .btn-lg { font-size: 16px; padding: 14px 30px; }
+
+    /* ─── Badges ─── */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 3px 10px;
+      border-radius: 9999px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.01em;
+    }
+    .badge-success { background: rgba(48,209,88,0.11); color: #28C556; }
+    .badge-warning { background: rgba(255,159,10,0.11); color: #E08800; }
+    .badge-error { background: rgba(255,69,58,0.11); color: #FF453A; }
+    .badge-info { background: rgba(41,121,255,0.11); color: #2979FF; }
+    .badge-neutral { background: var(--bg-subtle); color: var(--text-2); }
+
+    /* ─── Input ─── */
+    .input {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      padding: 10px 14px;
+      border-radius: 10px;
+      border: 1.5px solid var(--border);
+      background: var(--bg-card);
+      color: var(--text-1);
+      outline: none;
+      transition: all 0.15s;
+      width: 240px;
+    }
+    .input:focus { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(41,121,255,0.12); }
+    .input::placeholder { color: var(--text-3); }
+
+    /* ─── App Card ─── */
+    .app-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 20px;
+      box-shadow: var(--shadow-md);
+      width: 180px;
+      transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.25s;
+    }
+    .app-card:hover { transform: translateY(-4px) scale(1.02); box-shadow: var(--shadow-lg); }
+    .app-card-icon {
+      width: 44px; height: 44px;
+      border-radius: 12px;
+      background: var(--gradient);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      box-shadow: var(--shadow-brand);
+    }
+    .app-card-title { font-family: 'Nunito', sans-serif; font-size: 14px; font-weight: 700; color: var(--text-1); margin-bottom: 3px; }
+    .app-card-sub { font-size: 11.5px; color: var(--text-3); }
+
+    /* ─── Motion demos ─── */
+    .motion-card {
+      flex: 1;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 18px 16px;
+      cursor: pointer;
+      text-align: center;
+      min-width: 120px;
+    }
+    .motion-card .mc-title { font-size: 13px; font-weight: 600; color: var(--text-1); margin-bottom: 4px; }
+    .motion-card .mc-sub { font-size: 11px; color: var(--text-3); }
+
+    .m-spring { transition: transform 0.4s cubic-bezier(0.34,1.56,0.64,1); }
+    .m-spring:hover { transform: translateY(-6px) scale(1.03); }
+    .m-ease { transition: all 0.25s cubic-bezier(0.4,0,0.2,1); }
+    .m-ease:hover { background: var(--bg-elevated); border-color: var(--blue); transform: translateY(-2px); box-shadow: var(--shadow-md); }
+    .m-snap { transition: background 0.12s linear, color 0.12s linear; }
+    .m-snap:hover { background: var(--bg-subtle); }
+
+    /* ─── Voice cards ─── */
+    .voice-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 18px 20px; }
+    .voice-title { font-size: 13px; font-weight: 700; color: var(--text-1); margin-bottom: 7px; display: flex; align-items: center; gap: 7px; }
+    .voice-body { font-size: 12.5px; color: var(--text-2); line-height: 1.65; }
+    .voice-example { margin-top: 10px; padding: 10px 13px; background: var(--bg-subtle); border-radius: 8px; font-size: 12px; color: var(--text-2); font-style: italic; line-height: 1.6; }
+
+    /* ─── Do / Don't ─── */
+    .do-card { border-left: 3px solid #30D158; }
+    .dont-card { border-left: 3px solid #FF453A; }
+    .tag-do { display: inline-block; background: rgba(48,209,88,0.1); color: #28C556; font-size: 10px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; padding: 2px 8px; border-radius: 4px; margin-bottom: 10px; }
+    .tag-dont { display: inline-block; background: rgba(255,69,58,0.1); color: #FF453A; font-size: 10px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; padding: 2px 8px; border-radius: 4px; margin-bottom: 10px; }
+
+    /* ─── Util ─── */
+    .footnote { font-size: 12px; color: var(--text-3); margin-top: 12px; line-height: 1.6; }
+    .divider { height: 1px; background: var(--border); margin: 28px 0; }
+    .mt-6 { margin-top: 24px; }
+    .mt-4 { margin-top: 16px; }
+
+    /* ─── Responsive ─── */
+    @media (max-width: 900px) {
+      .sidebar { display: none; }
+      .main { margin-left: 0; padding: 24px 20px 60px; max-width: 100%; }
+      .g3, .g4 { grid-template-columns: repeat(2, 1fr); }
+      .g2 { grid-template-columns: 1fr; }
+      .hero-title { font-size: 36px; }
+      .elev-grid { flex-wrap: wrap; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Sidebar Navigation -->
+<nav class="sidebar">
+  <div class="sidebar-logo">
+    <div class="sidebar-wordmark">
+      <span class="chowen">chowen</span><span class="labs"> labs, llc</span>
+    </div>
+    <div class="sidebar-version">Design Language v1.0</div>
+  </div>
+
+  <div class="sidebar-group-label">Foundation</div>
+  <a href="#overview" class="nav-link active">Overview</a>
+  <a href="#logo" class="nav-link">Logo</a>
+  <a href="#color" class="nav-link">Color</a>
+  <a href="#typography" class="nav-link">Typography</a>
+
+  <div class="sidebar-group-label">Primitives</div>
+  <a href="#spacing" class="nav-link">Spacing</a>
+  <a href="#elevation" class="nav-link">Elevation</a>
+  <a href="#radius" class="nav-link">Border Radius</a>
+  <a href="#motion" class="nav-link">Motion</a>
+
+  <div class="sidebar-group-label">Application</div>
+  <a href="#components" class="nav-link">Components</a>
+  <a href="#voice" class="nav-link">Voice & Tone</a>
+</nav>
+
+<!-- Theme Toggle -->
+<button class="theme-toggle" onclick="toggleTheme()" id="themeBtn">☽ Dark</button>
+
+<!-- Main Content -->
+<main class="main">
+
+  <!-- ── Overview ── -->
+  <div id="overview" class="hero">
+    <div class="hero-pill">Design Language v1.0 · May 2026</div>
+    <h1 class="hero-title">The <span class="gradient-text">Chowen Labs</span><br>Design Language</h1>
+    <p class="hero-sub">
+      A cohesive system of visual and interaction principles for building premium iOS and web experiences. Thoughtful, refined, and distinctly ours — built from the ground up on the Chowen Labs identity.
+    </p>
+    <div class="hero-meta">
+      <div class="hero-meta-item"><strong>Audience</strong><span>App Store Consumers</span></div>
+      <div class="hero-meta-item"><strong>Tone</strong><span>Premium & Refined</span></div>
+      <div class="hero-meta-item"><strong>Dark Mode</strong><span>System-Adaptive</span></div>
+      <div class="hero-meta-item"><strong>Platform</strong><span>iOS-First</span></div>
+    </div>
+  </div>
+
+  <!-- ── Logo ── -->
+  <section id="logo" class="section">
+    <div class="eyebrow">01 — Identity</div>
+    <h2 class="section-title">Logo</h2>
+    <p class="section-desc">The Chowen Labs mark is an infinity symbol that forms the initials C + O — a nod to Charlie and Owen, and a metaphor for continuous creation. The gradient flows from cyan energy to deep indigo purpose.</p>
+
+    <!-- Variant Grid -->
+    <div class="swatch-group-label">Horizontal Variants</div>
+    <div class="g2" style="margin-bottom:14px;">
+      <div class="card" style="background:#ffffff; padding:24px; display:flex; flex-direction:column; gap:10px; align-items:center; border-radius:14px;">
+        <img src="https://raw.githubusercontent.com/robbcrawford/chowen-labs-assets/main/logos/Chowen_horiz_solid-white.png" style="width:100%; max-width:400px; height:auto;" alt="Horizontal logo, light">
+        <div style="text-align:center;">
+          <div class="swatch-name" style="font-size:12px;">Solid White · Dark text</div>
+          <div class="swatch-hex">Use on guaranteed white surfaces, print, docs</div>
+        </div>
+      </div>
+      <div class="card" style="background:#000000; padding:24px; display:flex; flex-direction:column; gap:10px; align-items:center; border-radius:14px; border-color:#222;">
+        <img src="https://raw.githubusercontent.com/robbcrawford/chowen-labs-assets/main/logos/Chowen_horiz_solid-black.png" style="width:100%; max-width:400px; height:auto;" alt="Horizontal logo, dark">
+        <div style="text-align:center;">
+          <div class="swatch-name" style="font-size:12px; color:#fff;">Solid Black · White text</div>
+          <div class="swatch-hex">Use on guaranteed dark surfaces, print, docs</div>
+        </div>
+      </div>
+    </div>
+    <div class="g2" style="margin-bottom:28px;">
+      <div style="background: repeating-conic-gradient(#e0e0e0 0% 25%, #f8f8f8 0% 50%) 0 0 / 20px 20px; border-radius:14px; padding:24px; display:flex; flex-direction:column; gap:10px; align-items:center; border:1px solid var(--border);">
+        <img src="https://raw.githubusercontent.com/robbcrawford/chowen-labs-assets/main/logos/Chowen_horiz_trans-white.png" style="width:100%; max-width:400px; height:auto;" alt="Horizontal logo transparent, dark text">
+        <div style="text-align:center; background:rgba(255,255,255,0.7); border-radius:6px; padding:4px 10px;">
+          <div class="swatch-name" style="font-size:12px;">Transparent · Dark text</div>
+          <div class="swatch-hex">Light nav bars, headers, web footers</div>
+        </div>
+      </div>
+      <div style="background: repeating-conic-gradient(#444 0% 25%, #333 0% 50%) 0 0 / 20px 20px; border-radius:14px; padding:24px; display:flex; flex-direction:column; gap:10px; align-items:center; border:1px solid #333;">
+        <img src="https://raw.githubusercontent.com/robbcrawford/chowen-labs-assets/main/logos/Chowen_horiz_trans-black.png" style="width:100%; max-width:400px; height:auto;" alt="Horizontal logo transparent, white text">
+        <div style="text-align:center; background:rgba(0,0,0,0.5); border-radius:6px; padding:4px 10px;">
+          <div class="swatch-name" style="font-size:12px; color:#fff;">Transparent · White text</div>
+          <div class="swatch-hex" style="color:#aaa;">Dark nav bars, dark headers, over photos</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="swatch-group-label">Vertical Variants</div>
+    <div class="g4" style="margin-bottom:28px;">
+      <div class="card" style="background:#ffffff; padding:20px; display:flex; flex-direction:column; gap:10px; align-items:center; border-radius:14px;">
+        <img src="https://raw.githubusercontent.com/robbcrawford/chowen-labs-assets/main/logos/Chowen_vert_solid-white.png" style="width:100%; max-width:180px; height:auto;" alt="Vertical logo, light">
+        <div style="text-align:center;">
+          <div class="swatch-name" style="font-size:11px;">Solid White</div>
+          <div class="swatch-hex">Print, white surfaces</div>
+        </div>
+      </div>
+      <div class="card" style="background:#000000; padding:20px; display:flex; flex-direction:column; gap:10px; align-items:center; border-radius:14px; border-color:#222;">
+        <img src="https://raw.githubusercontent.com/robbcrawford/chowen-labs-assets/main/logos/Chowen_vert_solid-black.png" style="width:100%; max-width:180px; height:auto;" alt="Vertical logo, dark">
+        <div style="text-align:center;">
+          <div class="swatch-name" style="font-size:11px; color:#fff;">Solid Black</div>
+          <div class="swatch-hex">Print, dark surfaces</div>
+        </div>
+      </div>
+      <div style="background: repeating-conic-gradient(#e0e0e0 0% 25%, #f8f8f8 0% 50%) 0 0 / 16px 16px; border-radius:14px; padding:20px; display:flex; flex-direction:column; gap:10px; align-items:center; border:1px solid var(--border);">
+        <img src="https://raw.githubusercontent.com/robbcrawford/chowen-labs-assets/main/logos/Chowen_vert_trans-white.png" style="width:100%; max-width:180px; height:auto;" alt="Vertical logo transparent, dark text">
+        <div style="text-align:center; background:rgba(255,255,255,0.7); border-radius:6px; padding:3px 8px;">
+          <div class="swatch-name" style="font-size:11px;">Trans · Dark text</div>
+          <div class="swatch-hex">Light backgrounds</div>
+        </div>
+      </div>
+      <div style="background: repeating-conic-gradient(#444 0% 25%, #333 0% 50%) 0 0 / 16px 16px; border-radius:14px; padding:20px; display:flex; flex-direction:column; gap:10px; align-items:center; border:1px solid #333;">
+        <img src="https://raw.githubusercontent.com/robbcrawford/chowen-labs-assets/main/logos/Chowen_vert_trans-black.png" style="width:100%; max-width:180px; height:auto;" alt="Vertical logo transparent, white text">
+        <div style="text-align:center; background:rgba(0,0,0,0.5); border-radius:6px; padding:3px 8px;">
+          <div class="swatch-name" style="font-size:11px; color:#fff;">Trans · White text</div>
+          <div class="swatch-hex" style="color:#aaa;">Dark backgrounds</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="g3">
+      <div class="card do-card">
+        <div class="tag-do">✓ Do</div>
+        <p style="font-size:13px; color:var(--text-2); line-height:1.65;">Maintain minimum clear space equal to the cap-height of "c" on all sides of the mark. Never crowd the logo against other elements.</p>
+      </div>
+      <div class="card do-card">
+        <div class="tag-do">✓ Do</div>
+        <p style="font-size:13px; color:var(--text-2); line-height:1.65;">Use the transparent versions whenever you control the background. Fall back to solid-BG versions only for third-party placements or print where background is unknown.</p>
+      </div>
+      <div class="card dont-card">
+        <div class="tag-dont">✗ Don't</div>
+        <p style="font-size:13px; color:var(--text-2); line-height:1.65;">Never recolor, stretch, rotate, or apply effects to the mark. Never place it on busy backgrounds without a scrim or solid backing.</p>
+      </div>
+    </div>
+  </section>
+
+    <!-- ── Color ── -->
+  <section id="color" class="section">
+    <div class="eyebrow">02 — Color</div>
+    <h2 class="section-title">Color System</h2>
+    <p class="section-desc">Three brand colors plus a gradient are the heart of the palette. The gradient should feel special — used for primary CTAs and brand moments, never as a background wallpaper. All surfaces and text adapt between light and dark.</p>
+
+    <div class="swatch-group-label">Brand Colors — click to copy hex</div>
+    <div style="display:grid; grid-template-columns: 1fr 1fr 1fr 2fr; gap:12px;">
+      <div class="swatch" onclick="copyHex('#00E5FF', this)">
+        <div class="swatch-color" style="background:#00E5FF;"></div>
+        <div class="swatch-body"><div class="swatch-name">Cyan</div><div class="swatch-hex">#00E5FF</div></div>
+      </div>
+      <div class="swatch" onclick="copyHex('#2979FF', this)">
+        <div class="swatch-color" style="background:#2979FF;"></div>
+        <div class="swatch-body"><div class="swatch-name">Blue</div><div class="swatch-hex">#2979FF</div></div>
+      </div>
+      <div class="swatch" onclick="copyHex('#6B3AE8', this)">
+        <div class="swatch-color" style="background:#6B3AE8;"></div>
+        <div class="swatch-body"><div class="swatch-name">Indigo</div><div class="swatch-hex">#6B3AE8</div></div>
+      </div>
+      <div class="swatch swatch-gradient" onclick="copyHex('linear-gradient(135deg, #00E5FF 0%, #2979FF 50%, #6B3AE8 100%)', this)">
+        <div class="swatch-color"></div>
+        <div class="swatch-body"><div class="swatch-name">Brand Gradient</div><div class="swatch-hex">135° · Cyan → Blue → Indigo</div></div>
+      </div>
+    </div>
+
+    <div class="swatch-group-label">Semantic Colors</div>
+    <div class="g4">
+      <div class="swatch" onclick="copyHex('#30D158', this)">
+        <div class="swatch-color" style="background:#30D158;"></div>
+        <div class="swatch-body"><div class="swatch-name">Success</div><div class="swatch-hex">#30D158</div></div>
+      </div>
+      <div class="swatch" onclick="copyHex('#FF9F0A', this)">
+        <div class="swatch-color" style="background:#FF9F0A;"></div>
+        <div class="swatch-body"><div class="swatch-name">Warning</div><div class="swatch-hex">#FF9F0A</div></div>
+      </div>
+      <div class="swatch" onclick="copyHex('#FF453A', this)">
+        <div class="swatch-color" style="background:#FF453A;"></div>
+        <div class="swatch-body"><div class="swatch-name">Error</div><div class="swatch-hex">#FF453A</div></div>
+      </div>
+      <div class="swatch" onclick="copyHex('#2979FF', this)">
+        <div class="swatch-color" style="background:#2979FF;"></div>
+        <div class="swatch-body"><div class="swatch-name">Info</div><div class="swatch-hex">#2979FF</div></div>
+      </div>
+    </div>
+
+    <div class="swatch-group-label">Design Tokens — Light / Dark</div>
+    <div class="card" style="padding:0; overflow:hidden;">
+      <table class="token-table">
+        <thead>
+          <tr><th>CSS Token</th><th>Light Value</th><th>Dark Value</th><th>Usage</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>--bg</td><td><span class="swatch-dot" style="background:#F6F6FB;"></span>#F6F6FB</td><td><span class="swatch-dot" style="background:#0A0A12; border-color:rgba(255,255,255,0.12);"></span>#0A0A12</td><td>Page background</td></tr>
+          <tr><td>--bg-card</td><td><span class="swatch-dot" style="background:#FFFFFF;"></span>#FFFFFF</td><td><span class="swatch-dot" style="background:#121220; border-color:rgba(255,255,255,0.1);"></span>#121220</td><td>Card, sheet surface</td></tr>
+          <tr><td>--bg-elevated</td><td><span class="swatch-dot" style="background:#FFFFFF;"></span>#FFFFFF</td><td><span class="swatch-dot" style="background:#1A1A2C; border-color:rgba(255,255,255,0.1);"></span>#1A1A2C</td><td>Modal, popover, tooltip</td></tr>
+          <tr><td>--bg-subtle</td><td><span class="swatch-dot" style="background:#EDEDF5;"></span>#EDEDF5</td><td><span class="swatch-dot" style="background:#1E1E30; border-color:rgba(255,255,255,0.08);"></span>#1E1E30</td><td>Grouped rows, tag fills</td></tr>
+          <tr><td>--border</td><td><span class="swatch-dot" style="background:#E2E2EE;"></span>#E2E2EE</td><td><span class="swatch-dot" style="background:#28283C; border-color:rgba(255,255,255,0.08);"></span>#28283C</td><td>Dividers, outlines</td></tr>
+          <tr><td>--text-1</td><td><span class="swatch-dot" style="background:#0F0F1A;"></span>#0F0F1A</td><td><span class="swatch-dot" style="background:#EFEFFA;"></span>#EFEFFA</td><td>Primary text</td></tr>
+          <tr><td>--text-2</td><td><span class="swatch-dot" style="background:#56567A;"></span>#56567A</td><td><span class="swatch-dot" style="background:#8A8AAC; border-color:rgba(255,255,255,0.1);"></span>#8A8AAC</td><td>Secondary / supporting text</td></tr>
+          <tr><td>--text-3</td><td><span class="swatch-dot" style="background:#9898B8;"></span>#9898B8</td><td><span class="swatch-dot" style="background:#56567A; border-color:rgba(255,255,255,0.06);"></span>#56567A</td><td>Placeholder, disabled, hint</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="footnote mt-4">Surfaces in dark mode use a cool-tinted near-black (not pure #000000) so the brand gradient retains its vibrancy and pops against the background.</p>
+  </section>
+
+  <!-- ── Typography ── -->
+  <section id="typography" class="section">
+    <div class="eyebrow">03 — Typography</div>
+    <h2 class="section-title">Typography</h2>
+    <p class="section-desc">Three typefaces form the Chowen Labs type system. Nunito anchors brand identity — its rounded geometry echoes the logo mark. DM Sans handles all UI work cleanly. JetBrains Mono for every technical surface.</p>
+
+    <div class="g3" style="margin-bottom: 32px;">
+      <div class="card">
+        <div style="font-family:'Nunito',sans-serif; font-size:34px; font-weight:800; line-height:1; margin-bottom:12px; color:var(--text-1);">Nunito</div>
+        <div style="font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:0.09em; color:var(--text-3); margin-bottom:7px;">Display / Brand</div>
+        <p style="font-size:12.5px; color:var(--text-2); line-height:1.6;">Headings, app names, marketing copy, hero titles. Matches the warmth and roundness of the logo mark.</p>
+        <div style="margin-top:12px; font-family:'Nunito',sans-serif; font-size:12px; color:var(--text-3);">Weights used: 700, 800, 900</div>
+      </div>
+      <div class="card">
+        <div style="font-family:'DM Sans',sans-serif; font-size:34px; font-weight:400; line-height:1; margin-bottom:12px; color:var(--text-1);">DM Sans</div>
+        <div style="font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:0.09em; color:var(--text-3); margin-bottom:7px;">UI / Body</div>
+        <p style="font-size:12.5px; color:var(--text-2); line-height:1.6;">All body copy, labels, UI controls, captions. Highly legible at 11px+. Refined and friendly at small sizes.</p>
+        <div style="margin-top:12px; font-family:'DM Sans',sans-serif; font-size:12px; color:var(--text-3);">Weights used: 300, 400, 500, 600</div>
+      </div>
+      <div class="card">
+        <div style="font-family:'JetBrains Mono',monospace; font-size:26px; font-weight:400; line-height:1.1; margin-bottom:12px; color:var(--text-1);">JetBrains<br>Mono</div>
+        <div style="font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:0.09em; color:var(--text-3); margin-bottom:7px;">Code / Technical</div>
+        <p style="font-size:12.5px; color:var(--text-2); line-height:1.6;">Code, hex values, version numbers, token names, data displays, airport codes, tail numbers.</p>
+        <div style="margin-top:12px; font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--text-3);">Weights used: 400, 500</div>
+      </div>
+    </div>
+
+    <div class="swatch-group-label">Type Scale</div>
+
+    <div class="type-row">
+      <div style="font-family:'Nunito',sans-serif; font-size:48px; font-weight:900; letter-spacing:-0.03em; color:var(--text-1); line-height:1;">Display XL</div>
+      <div class="type-meta"><div class="tname">Display XL</div><div class="tdetail">Nunito 900 · 48px · -0.03em</div></div>
+    </div>
+    <div class="type-row">
+      <div style="font-family:'Nunito',sans-serif; font-size:36px; font-weight:800; letter-spacing:-0.025em; color:var(--text-1); line-height:1;">Display</div>
+      <div class="type-meta"><div class="tname">Display</div><div class="tdetail">Nunito 800 · 36px · -0.025em</div></div>
+    </div>
+    <div class="type-row">
+      <div style="font-family:'Nunito',sans-serif; font-size:28px; font-weight:700; letter-spacing:-0.02em; color:var(--text-1); line-height:1.15;">Heading 1</div>
+      <div class="type-meta"><div class="tname">H1</div><div class="tdetail">Nunito 700 · 28px · -0.02em</div></div>
+    </div>
+    <div class="type-row">
+      <div style="font-family:'Nunito',sans-serif; font-size:22px; font-weight:700; letter-spacing:-0.01em; color:var(--text-1); line-height:1.2;">Heading 2</div>
+      <div class="type-meta"><div class="tname">H2</div><div class="tdetail">Nunito 700 · 22px · -0.01em</div></div>
+    </div>
+    <div class="type-row">
+      <div style="font-family:'Nunito',sans-serif; font-size:18px; font-weight:600; color:var(--text-1);">Heading 3</div>
+      <div class="type-meta"><div class="tname">H3</div><div class="tdetail">Nunito 600 · 18px</div></div>
+    </div>
+    <div class="type-row">
+      <div style="font-family:'DM Sans',sans-serif; font-size:17px; font-weight:400; color:var(--text-1); line-height:1.6;">Body Large — The quick brown fox jumps over the lazy dog.</div>
+      <div class="type-meta"><div class="tname">Body L</div><div class="tdetail">DM Sans 400 · 17px · 1.6lh</div></div>
+    </div>
+    <div class="type-row">
+      <div style="font-family:'DM Sans',sans-serif; font-size:15px; font-weight:400; color:var(--text-1); line-height:1.55;">Body — The quick brown fox jumps over the lazy dog with ease.</div>
+      <div class="type-meta"><div class="tname">Body</div><div class="tdetail">DM Sans 400 · 15px · 1.55lh</div></div>
+    </div>
+    <div class="type-row">
+      <div style="font-family:'DM Sans',sans-serif; font-size:13px; color:var(--text-2); line-height:1.5;">Caption — Supporting text, metadata, secondary information, and timestamps.</div>
+      <div class="type-meta"><div class="tname">Caption</div><div class="tdetail">DM Sans 400 · 13px</div></div>
+    </div>
+    <div class="type-row">
+      <div style="font-family:'DM Sans',sans-serif; font-size:11px; font-weight:600; letter-spacing:0.1em; text-transform:uppercase; color:var(--text-3);">OVERLINE / SECTION LABEL</div>
+      <div class="type-meta"><div class="tname">Overline</div><div class="tdetail">DM Sans 600 · 11px · 0.1em UC</div></div>
+    </div>
+  </section>
+
+  <!-- ── Spacing ── -->
+  <section id="spacing" class="section">
+    <div class="eyebrow">04 — Spacing</div>
+    <h2 class="section-title">Spacing Scale</h2>
+    <p class="section-desc">An 8-point base grid. All spacing decisions — padding, margin, gap — must snap to these values. This creates visual rhythm and predictable density across every surface and app.</p>
+
+    <div class="card">
+      <div style="padding: 6px 0;">
+        <div class="space-row"><div class="space-label">space-1</div><div class="space-bar" style="width:4px;"></div><div class="space-value">4px · micro nudges</div></div>
+        <div class="space-row"><div class="space-label">space-2</div><div class="space-bar" style="width:8px;"></div><div class="space-value">8px · icon gaps, tight insets</div></div>
+        <div class="space-row"><div class="space-label">space-3</div><div class="space-bar" style="width:12px;"></div><div class="space-value">12px · compact list items</div></div>
+        <div class="space-row"><div class="space-label">space-4</div><div class="space-bar" style="width:16px;"></div><div class="space-value">16px — base unit · standard padding</div></div>
+        <div class="space-row"><div class="space-label">space-5</div><div class="space-bar" style="width:20px;"></div><div class="space-value">20px · comfortable insets</div></div>
+        <div class="space-row"><div class="space-label">space-6</div><div class="space-bar" style="width:24px;"></div><div class="space-value">24px · card padding, section gaps</div></div>
+        <div class="space-row"><div class="space-label">space-8</div><div class="space-bar" style="width:32px;"></div><div class="space-value">32px · inter-section breathing</div></div>
+        <div class="space-row"><div class="space-label">space-12</div><div class="space-bar" style="width:48px;"></div><div class="space-value">48px · large section gaps</div></div>
+        <div class="space-row"><div class="space-label">space-16</div><div class="space-bar" style="width:64px;"></div><div class="space-value">64px · page-level rhythm</div></div>
+        <div class="space-row"><div class="space-label">space-20</div><div class="space-bar" style="width:80px;"></div><div class="space-value">80px · hero padding</div></div>
+      </div>
+    </div>
+    <p class="footnote mt-4">Never use arbitrary pixel values. If you need 14px, use 16px (space-4). When in doubt, go larger — generous spacing reads as premium.</p>
+  </section>
+
+  <!-- ── Elevation ── -->
+  <section id="elevation" class="section">
+    <div class="eyebrow">05 — Elevation</div>
+    <h2 class="section-title">Elevation & Shadows</h2>
+    <p class="section-desc">Four shadow levels create spatial depth. In light mode, shadows do the heavy lifting. In dark mode, lean on background level changes (--bg vs --bg-card vs --bg-elevated) as the primary depth cue — shadows carry less weight on dark surfaces.</p>
+
+    <div class="demo-area" style="justify-content:space-around; background:var(--bg);">
+      <div class="elev-grid" style="width:100%;">
+        <div class="elev-card" style="box-shadow:none; border-style:dashed;">
+          <div class="elev-icon" style="opacity:0.3;">⬜</div>
+          <div class="elev-label">Flat</div>
+          <div class="elev-detail">No shadow<br>Base surface</div>
+        </div>
+        <div class="elev-card" style="box-shadow:0 1px 3px rgba(15,15,26,0.05), 0 1px 2px rgba(15,15,26,0.04);">
+          <div class="elev-icon">⬜</div>
+          <div class="elev-label">sm</div>
+          <div class="elev-detail">Subtle lift<br>Inline cards</div>
+        </div>
+        <div class="elev-card" style="box-shadow:0 4px 16px rgba(15,15,26,0.07), 0 2px 6px rgba(15,15,26,0.04);">
+          <div class="elev-icon">⬜</div>
+          <div class="elev-label">md</div>
+          <div class="elev-detail">Cards, rows<br>Standard depth</div>
+        </div>
+        <div class="elev-card" style="box-shadow:0 8px 32px rgba(15,15,26,0.09), 0 4px 12px rgba(15,15,26,0.05);">
+          <div class="elev-icon">⬜</div>
+          <div class="elev-label">lg</div>
+          <div class="elev-detail">Modals<br>Floating panels</div>
+        </div>
+        <div class="elev-card" style="box-shadow:0 4px 20px rgba(41,121,255,0.24), 0 1px 4px rgba(41,121,255,0.14);">
+          <div class="elev-icon"><span style="background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">◆</span></div>
+          <div class="elev-label" style="color:var(--blue);">brand</div>
+          <div class="elev-detail">Primary CTA<br>Brand glow</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Border Radius ── -->
+  <section id="radius" class="section">
+    <div class="eyebrow">06 — Border Radius</div>
+    <h2 class="section-title">Border Radius</h2>
+    <p class="section-desc">Consistent rounding reinforces the brand's rounded character. Scale corner radius to element size — smaller elements get tighter radii, larger surfaces get more generous curves. Never use sharp 0px corners.</p>
+
+    <div class="demo-area">
+      <div class="radius-grid">
+        <div class="radius-item">
+          <div class="radius-box" style="border-radius:4px;"><span>4</span></div>
+          <div class="radius-label">xs · 4px<br>Inline tags</div>
+        </div>
+        <div class="radius-item">
+          <div class="radius-box" style="border-radius:8px;"><span>8</span></div>
+          <div class="radius-label">sm · 8px<br>Inputs, rows</div>
+        </div>
+        <div class="radius-item">
+          <div class="radius-box" style="border-radius:12px;"><span>12</span></div>
+          <div class="radius-label">md · 12px<br>Small cards</div>
+        </div>
+        <div class="radius-item">
+          <div class="radius-box" style="border-radius:16px;"><span>16</span></div>
+          <div class="radius-label">lg · 16px<br>Cards, sheets</div>
+        </div>
+        <div class="radius-item">
+          <div class="radius-box" style="border-radius:24px;"><span>24</span></div>
+          <div class="radius-label">xl · 24px<br>Hero cards</div>
+        </div>
+        <div class="radius-item">
+          <div class="radius-box" style="border-radius:9999px; width:80px;"><span>∞</span></div>
+          <div class="radius-label">pill · full<br>Buttons, badges</div>
+        </div>
+      </div>
+    </div>
+    <p class="footnote mt-4">In SwiftUI, map these to: .cornerRadius(4/8/12/16/24) or .clipShape(RoundedRectangle(cornerRadius: X, style: .continuous)) for the smoothest Apple-quality curves.</p>
+  </section>
+
+  <!-- ── Motion ── -->
+  <section id="motion" class="section">
+    <div class="eyebrow">07 — Motion</div>
+    <h2 class="section-title">Motion & Animation</h2>
+    <p class="section-desc">Motion should feel natural and purposeful. Use spring curves for interactive elements — the overshoot communicates physical responsiveness. Reserve linear for instant toggling. Never animate for decoration alone.</p>
+
+    <div class="g3" style="margin-bottom: 24px;">
+      <div class="card">
+        <div style="font-size:13px; font-weight:700; color:var(--text-1); margin-bottom:6px;">🌊 Spring</div>
+        <div style="font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--blue); margin-bottom:8px; line-height:1.5;">cubic-bezier(0.34, 1.56, 0.64, 1)<br>350–450ms</div>
+        <p style="font-size:12.5px; color:var(--text-2); line-height:1.6;">Interactive elements: buttons, cards, icons. Slight overshoot adds personality. In SwiftUI: .spring(response: 0.4, dampingFraction: 0.6)</p>
+      </div>
+      <div class="card">
+        <div style="font-size:13px; font-weight:700; color:var(--text-1); margin-bottom:6px;">→ Ease</div>
+        <div style="font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--blue); margin-bottom:8px; line-height:1.5;">cubic-bezier(0.4, 0, 0.2, 1)<br>200–300ms</div>
+        <p style="font-size:12.5px; color:var(--text-2); line-height:1.6;">State transitions: color, opacity, background changes. Smooth entry and exit. In SwiftUI: .easeInOut(duration: 0.25)</p>
+      </div>
+      <div class="card">
+        <div style="font-size:13px; font-weight:700; color:var(--text-1); margin-bottom:6px;">⚡ Snap</div>
+        <div style="font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--blue); margin-bottom:8px; line-height:1.5;">linear<br>100–150ms</div>
+        <p style="font-size:12.5px; color:var(--text-2); line-height:1.6;">Immediate feedback: toggles, checkboxes, selection highlight. Should feel instant — avoid perceptible delay. In SwiftUI: .linear(duration: 0.1)</p>
+      </div>
+    </div>
+
+    <div class="swatch-group-label">Hover to feel each curve</div>
+    <div class="demo-area">
+      <div class="motion-card m-spring">
+        <div class="mc-title">🌊 Spring</div>
+        <div class="mc-sub">overshoot bounce</div>
+      </div>
+      <div class="motion-card m-ease">
+        <div class="mc-title">→ Ease</div>
+        <div class="mc-sub">smooth state</div>
+      </div>
+      <div class="motion-card m-snap">
+        <div class="mc-title">⚡ Snap</div>
+        <div class="mc-sub">instant feedback</div>
+      </div>
+    </div>
+
+    <p class="footnote mt-4">Accessibility: always respect prefers-reduced-motion. Wrap all non-essential animations in @media (prefers-reduced-motion: no-preference) in web, or withAnimation(nil) fallbacks in SwiftUI.</p>
+  </section>
+
+  <!-- ── Components ── -->
+  <section id="components" class="section">
+    <div class="eyebrow">08 — Components</div>
+    <h2 class="section-title">Components</h2>
+    <p class="section-desc">Core UI primitives built on the token system above. Every component supports both light and dark mode natively. These are the building blocks of every Chowen Labs app and surface.</p>
+
+    <div class="demo-label">Buttons — hover to interact</div>
+    <div class="demo-area">
+      <button class="btn btn-primary btn-lg">Get Started</button>
+      <button class="btn btn-primary">Download</button>
+      <button class="btn btn-primary btn-sm">Update</button>
+      <button class="btn btn-secondary">Learn More</button>
+      <button class="btn btn-ghost">Cancel</button>
+      <button class="btn btn-destructive">Delete</button>
+    </div>
+    <p class="footnote" style="margin-bottom:0;">Primary button always uses the brand gradient. Secondary is outlined. Ghost is borderless. Destructive uses the error color.</p>
+
+    <div class="demo-label">Status Badges</div>
+    <div class="demo-area">
+      <span class="badge badge-success">✓ Active</span>
+      <span class="badge badge-warning">⚠ Pending</span>
+      <span class="badge badge-error">✕ Failed</span>
+      <span class="badge badge-info">ℹ Updated</span>
+      <span class="badge badge-neutral">Draft</span>
+    </div>
+
+    <div class="demo-label">Text Inputs</div>
+    <div class="demo-area" style="flex-direction:column; align-items:flex-start; gap:10px;">
+      <input class="input" type="text" placeholder="Search or enter value…">
+      <input class="input" type="email" placeholder="you@example.com">
+      <input class="input" type="text" value="Pre-filled value">
+    </div>
+
+    <div class="demo-label">App Cards — hover to interact</div>
+    <div class="demo-area" style="align-items:flex-start; gap:16px;">
+      <div class="app-card">
+        <div class="app-card-icon">✈️</div>
+        <div class="app-card-title">Flight Notebook</div>
+        <div class="app-card-sub">Logbook & trip planner</div>
+      </div>
+      <div class="app-card">
+        <div class="app-card-icon">🗺️</div>
+        <div class="app-card-title">Walk Tracker</div>
+        <div class="app-card-sub">Routes & milestones</div>
+      </div>
+      <div class="app-card">
+        <div class="app-card-icon">⚡</div>
+        <div class="app-card-title">Brake Calc</div>
+        <div class="app-card-sub">737 energy tool</div>
+      </div>
+      <div class="app-card" style="background: linear-gradient(135deg, #0A0A12, #1A1A2C); border-color:#28283C;">
+        <div class="app-card-icon">＋</div>
+        <div class="app-card-title" style="color:#EFEFFA;">New App</div>
+        <div class="app-card-sub">Coming soon</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Voice & Tone ── -->
+  <section id="voice" class="section">
+    <div class="eyebrow">09 — Voice & Tone</div>
+    <h2 class="section-title">Voice & Tone</h2>
+    <p class="section-desc">Chowen Labs is a craftsperson, not a corporation. Our voice is precise, warm, and confident. We write like a skilled pilot explaining a procedure — technically exact, but never cold or bureaucratic.</p>
+
+    <div class="g2" style="margin-bottom: 24px;">
+      <div class="voice-card">
+        <div class="voice-title">🎯 Precise</div>
+        <div class="voice-body">We say exactly what we mean. No filler, no marketing fluff. Respect the user's intelligence and their time.</div>
+        <div class="voice-example">✓ "Track every flight. Own your logbook."<br>✗ "The ultimate all-in-one aviation companion experience"</div>
+      </div>
+      <div class="voice-card">
+        <div class="voice-title">🤝 Warm</div>
+        <div class="voice-body">We're a small studio building things we care about. That humanity comes through in every word — especially in errors and empty states.</div>
+        <div class="voice-example">✓ "Something went wrong — want to try again?"<br>✗ "Error 404: Resource not found."</div>
+      </div>
+      <div class="voice-card">
+        <div class="voice-title">💪 Confident</div>
+        <div class="voice-body">We've built something we believe in. We don't hedge. Our copy reflects that without tipping into arrogance.</div>
+        <div class="voice-example">✓ "Designed for pilots, by a pilot."<br>✗ "We hope you might possibly enjoy this app."</div>
+      </div>
+      <div class="voice-card">
+        <div class="voice-title">🔬 Crafted</div>
+        <div class="voice-body">Every word is considered — like code. We notice the micro-copy others skip: confirmations, loading states, success messages.</div>
+        <div class="voice-example">✓ "Nice — 10 flights logged this month."<br>✗ "Success! Operation completed."</div>
+      </div>
+    </div>
+
+    <div class="g2">
+      <div class="card do-card">
+        <div class="tag-do">✓ Do</div>
+        <p style="font-size:13px; color:var(--text-2); line-height:1.7;">Use sentence case everywhere except brand names and app titles. Write active voice. Use contractions (it's, you're, we've) to sound human. Lead with the benefit, not the feature.</p>
+      </div>
+      <div class="card dont-card">
+        <div class="tag-dont">✗ Don't</div>
+        <p style="font-size:13px; color:var(--text-2); line-height:1.7;">Don't overuse exclamation points — one per screen maximum. Avoid buzzwords: "leverage," "seamless," "innovative," "robust." Never ALL CAPS for emphasis. Don't write error messages that blame the user.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <div style="padding: 52px 0 0; text-align:center; border-top: 1px solid var(--border);">
+    <div style="font-family:'Nunito',sans-serif; font-size:20px; font-weight:800; margin-bottom:8px;">
+      <span class="gradient-text">chowen labs, llc</span>
+    </div>
+    <div style="font-size:12px; color:var(--text-3);">Design Language v1.0 · May 2026 · All rights reserved<br>Built for Charlie, Owen, and every app we haven't made yet.</div>
+  </div>
+
+</main>
+
+<script>
+  // System theme detection
+  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  if (prefersDark) {
+    document.documentElement.setAttribute('data-theme', 'dark');
+    document.getElementById('themeBtn').textContent = '☀ Light';
+  }
+
+  function toggleTheme() {
+    const html = document.documentElement;
+    const btn = document.getElementById('themeBtn');
+    if (html.getAttribute('data-theme') === 'light') {
+      html.setAttribute('data-theme', 'dark');
+      btn.textContent = '☀ Light';
+    } else {
+      html.setAttribute('data-theme', 'light');
+      btn.textContent = '☽ Dark';
+    }
+  }
+
+  // Copy hex on swatch click
+  function copyHex(val, el) {
+    navigator.clipboard.writeText(val).catch(() => {});
+    const name = el.querySelector('.swatch-name');
+    const orig = name.textContent;
+    name.textContent = '✓ Copied';
+    name.style.color = '#30D158';
+    setTimeout(() => { name.textContent = orig; name.style.color = ''; }, 1600);
+  }
+
+  // Active sidebar navigation
+  const sections = document.querySelectorAll('.section, .hero');
+  const navLinks = document.querySelectorAll('.nav-link');
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        navLinks.forEach(l => l.classList.remove('active'));
+        const match = document.querySelector(`.nav-link[href="#${entry.target.id}"]`);
+        if (match) match.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-30% 0px -60% 0px' });
+
+  sections.forEach(s => observer.observe(s));
+</script>
+</body>
+</html>
